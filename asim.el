@@ -30,6 +30,8 @@
 
 ;;; 切换输入法
 ;; (setq asim-cnim default-input-method)
+(require 'flypy-cn)
+(setq default-input-method "chinese-flypy")
 (setq asim-cnim "chinese-flypy")
 (setq asim-enim nil)
 
@@ -131,8 +133,20 @@
             (define-key map (kbd "SPC") 'asim-auto-switch-im-with-space)
             map))
 
-(add-hook 'prog-mode-hook #'asim-minor-mode)
-(add-hook 'text-mode-hook #'asim-minor-mode)
+(defun asim-enable ()
+  (add-hook 'prog-mode-hook #'asim-minor-mode)
+  (add-hook 'text-mode-hook #'asim-minor-mode))
+
+(defun asim-disable ()
+  (remove-hook 'prog-mode-hook #'asim-minor-mode)
+  (remove-hook 'text-mode-hook #'asim-minor-mode))
+
+(define-minor-mode asim-mode ()
+  "asim"
+  :global t
+  (if asim-mode
+      (asim-enable)
+    (asim-disable)))
 
 ;;; asim.el ends here.
 (provide 'asim)
