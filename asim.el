@@ -116,6 +116,7 @@
    (t (asim-toggle-im)))) 
 
 ;;; space
+;;;###autoload
 (defun asim-auto-switch-im-with-space ()
   (interactive)
   (cond
@@ -134,15 +135,18 @@
             map))
 
 (defun asim-enable ()
+  (asim-minor-mode 1)
   (add-hook 'prog-mode-hook #'asim-minor-mode)
   (add-hook 'text-mode-hook #'asim-minor-mode))
 
 (defun asim-disable ()
+  (asim-minor-mode -1)
   (remove-hook 'prog-mode-hook #'asim-minor-mode)
   (remove-hook 'text-mode-hook #'asim-minor-mode))
 
 (define-minor-mode asim-mode ()
   "asim"
+  :init-value nil
   :global t
   (if asim-mode
       (asim-enable)
